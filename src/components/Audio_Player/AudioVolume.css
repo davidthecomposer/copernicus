@@ -1,0 +1,75 @@
+.audio-volume {
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+}
+
+.audio-volumeBar {
+	-webkit-appearance: none;
+	position: absolute;
+	background: linear-gradient(to left, #00a5a5, rgba(0, 0, 0, 0));
+	height: 10px;
+	width: 60%;
+	transform: rotate(-90deg);
+	visibility: hidden;
+	cursor: grab;
+	user-select: none;
+	outline: none;
+	top: 25%;
+	align-self: center;
+}
+.volume-container {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-right: 2%;
+	width: 15%;
+	height: 100%;
+}
+.fade {
+	visibility: visible;
+	animation: 0.35s linear forwards fade-out;
+}
+
+.show {
+	visibility: visible;
+	animation: 0.25s linear forwards fade-in;
+}
+
+@keyframes fade-out {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.audio-volumeBar::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	height: 16px;
+	width: 16px;
+	border: none;
+	background: radial-gradient(white, purple, black);
+	border-radius: 100%;
+}
+
+.audio-volumeBar::-moz-range-thumb {
+	-webkit-appearance: none;
+	height: 8px;
+	width: 8px;
+	border: none;
+	background: radial-gradient(white, purple, black);
+	border-radius: 100%;
+}
