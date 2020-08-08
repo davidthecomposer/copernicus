@@ -1,0 +1,60 @@
+.play-button {
+	left: 1%;
+	width: 1.2vw;
+	height: 1.2vw;
+	min-width: 16px;
+	min-height: 16px;
+	opacity: 0.5;
+	cursor: pointer;
+	position: absolute;
+
+	z-index: 2;
+}
+
+.play-button:hover {
+	transition: 0.2s;
+	opacity: 1;
+}
+
+.play-button:not(:hover) {
+	transition: 0.2s;
+}
+
+.audio-file {
+	display: none;
+}
+
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.press {
+	animation: press 0.2s forwards;
+}
+
+.press-again {
+	animation: press-again 0.2s forwards;
+}
+
+@keyframes press {
+	50% {
+		transform: scale(0.8);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes press-again {
+	50% {
+		transform: scale(0.8);
+	}
+	100% {
+		transform: scale(1);
+	}
+}

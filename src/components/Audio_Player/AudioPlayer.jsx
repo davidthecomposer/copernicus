@@ -2,13 +2,11 @@ import React from "react";
 import "./AudioPlayer.scss";
 
 import PlayButton from "./PlayButton";
-import AudioCenter from "./AudioCenter";
-import AudioVolume from "./AudioVolume";
-import AlbumCover from "./AlbumCover.jsx";
-import playButtonImage from "./images/play_button.svg";
-import pauseButtonImage from "./images/pause_button.svg";
-import volumeIcon from "./images/volumeIcon.svg";
-import volumeIconMute from "./images/volumeMute.svg";
+import infoButton from "../../images/info_button.svg";
+import AudioProgress from "./AudioProgress";
+import AudioPlayerTitle from "./AudioPlayerTitle";
+import playButtonImage from "../../images/play_button.svg";
+import pauseButtonImage from "../../images/pause_button.svg";
 
 class AudioPlayer extends React.Component {
 	constructor(props) {
@@ -18,31 +16,41 @@ class AudioPlayer extends React.Component {
 			pureTime: 0,
 			pureDuration: 0,
 			buttonImage: playButtonImage,
-			volumeImage: volumeIcon,
-			volumeBarVisibility: "hide",
+			infoBtnOpacity: "",
+			titleOpacity: "",
 			volume: 1,
+			timeRemaining: "0:00",
+			playButton: null,
 		};
 		this.audio = React.createRef();
-		this.playButton = React.createRef();
 	}
 
 	playState = (e) => {
 		if (this.audio.current.ended) {
 			this.audio.current.load();
+			this.props.autoPlayTrackList(this.state.playButton);
 			this.setState({
 				buttonImage: playButtonImage,
 			});
+			this.setState({ titleOpacity: "" });
 		} else if (this.audio.current.currentTime === 0) {
 			this.setState({ buttonImage: pauseButtonImage });
+			this.setState({ titleOpacity: "teal" });
 			this.audio.current.play();
 		} else if (this.state.buttonImage === pauseButtonImage) {
 			this.setState({ buttonImage: playButtonImage });
 
+			this.setState({ titleOpacity: "" });
 			this.audio.current.pause();
 		} else if (this.state.buttonImage === playButtonImage) {
 			this.setState({ buttonImage: pauseButtonImage });
+			this.setState({ titleOpacity: "teal" });
 			this.audio.current.play();
 		}
+	};
+
+	setPlayButtonRefState = (buttonRef) => {
+		this.setState({ playButton: buttonRef });
 	};
 
 	getTimeCalc = (event) => {
@@ -86,75 +94,72 @@ class AudioPlayer extends React.Component {
 			pureTime: this.audio.current.currentTime,
 			pureDuration: this.audio.current.duration,
 		});
+		const track = this.audio.current;
+		const played = track.played;
+		// const currentTime = track.currentTime;
+		// const pureDuration = track.duration;
+		const title = track.dataset.title;
+
+		this.props.sendDataToViewer(
+			this.state.currentTime,
+			this.state.timeRemaining,
+			title,
+			played
+		);
 	};
 
 	updateCurrentTime = (newTime) => {
 		this.audio.current.currentTime = newTime;
 	};
 
-	changeVolume = (event) => {
-		this.setState({ volume: event.target.value });
-	};
-
-	muteVolume = () => {
-		if (this.state.volumeImage === volumeIcon) {
-			this.setState({ volumeImage: volumeIconMute });
-			this.audio.current.muted = true;
-		} else {
-			this.setState({ volumeImage: volumeIcon });
-			this.audio.current.muted = false;
-		}
-	};
-
-	volumeBarVisibility = (event) => {
-		if (event.type === "mouseover") {
-			this.setState({ volumeBarVisibility: "show" });
-		} else {
-			this.setState({ volumeBarVisibility: "hide" });
-		}
+	changeInfoBtnOpacity = () => {
+		this.state.infoBtnOpacity === ""
+			? this.setState({ infoBtnOpacity: "full-opacity" })
+			: this.setState({ infoBtnOpacity: "" });
 	};
 
 	render() {
 		return (
-			<div className={`audio-player ${this.props.secondClass}`}>
-				<div className='audio-player-row'>
-					<audio
-						className={`audio-file `}
-						src={this.props.audioFile}
-						ref={this.audio}
-						onTimeUpdate={this.getTimeCalc}
-						onDurationChange={this.getDuration}
-						onEnded={this.playState}
-						onLoad={this.playState}
-					/>
-					<PlayButton
-						playState={this.playState}
-						image={this.state.buttonImage}
-					/>
-					<AudioCenter
-						title={this.props.title}
-						composer={this.props.composer}
-						currentTime={this.state.currentTime}
-						timeRemaining={this.state.timeRemaining}
-						pureTime={this.state.pureTime}
-						pureDuration={this.state.pureDuration}
-						updateCurrentTime={this.updateCurrentTime}
-					/>
-					<AudioVolume
-						changeVolume={this.changeVolume}
-						volumeIcon={this.state.volumeImage}
-						muteVolume={this.muteVolume}
-						volumeBarVisibility={this.volumeBarVisibility}
-						volumeBarVisibilityState={this.state.volumeBarVisibility}
-						volume={this.state.volume}
-					/>
-					<AlbumCover imageSrc={this.props.imageSrc} />
-				</div>
+			<div className={`audio-player`}>
+				<audio
+					className={`audio-file `}
+					src={this.props.audioFile}
+					ref={this.audio}
+					onTimeUpdate={this.getTimeCalc}
+					onDurationChange={this.getDuration}
+					onEnded={this.playState}
+					onLoad={this.playState}
+					data-title={this.props.title}
+				/>
+				<PlayButton
+					playState={this.playState}
+					image={this.state.buttonImage}
+					populatePlayButtonList={this.props.populatePlayButtonList}
+					passRefToPlayer={this.setPlayButtonRefState}
+				/>
+				<AudioPlayerTitle
+					title={this.props.title}
+					opacity={this.state.titleOpacity}
+				/>
+
+				<AudioProgress
+					pureTime={this.state.pureTime}
+					pureDuration={this.state.pureDuration}
+					onClick={this.changeLocation}
+					updateCurrentTime={this.updateCurrentTime}
+				/>
+
+				<img
+					className={`info-button ${this.state.infoBtnOpacity}`}
+					src={infoButton}
+					alt='info'
+					onClick={this.props.displayPlanetInfo}
+					onMouseUp={this.changeInfoBtnOpacity}
+					data-title={this.props.title}
+				/>
 			</div>
 		);
 	}
 }
 
 export default AudioPlayer;
-
-//Need to add callback function here and send it down to AudioProgress to get  time data to update currentTime in state here.

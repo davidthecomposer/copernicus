@@ -1,17 +1,45 @@
-import React from "react";
-import "./PlayButton..css";
+import React, { useState, useEffect, useRef } from "react";
+import "./PlayButton..scss";
 
-class PlayButton extends React.Component {
-	render() {
-		return (
-			<img
-				src={this.props.image}
-				alt='play and pause button'
-				className='play-button'
-				onClick={this.props.playState}
-			/>
-		);
-	}
-}
+const PlayButton = ({
+	playState,
+	image,
+	populatePlayButtonList,
+	passRefToPlayer,
+}) => {
+	const [playBtnPress, setPlayBtnPress] = useState("");
+	const [playButtonRef, setPlayButtonRef] = useState(null);
+	const playButton = useRef();
+
+	useEffect(() => {
+		const runAsync = async () => {
+			await setPlayButtonRef(playButton.current);
+			if (playButtonRef !== null) {
+				populatePlayButtonList(playButtonRef);
+				passRefToPlayer(playButtonRef);
+			}
+		};
+		runAsync();
+	}, [playButtonRef]);
+
+	const runOnClick = () => {
+		playState();
+		playBtnPress === "" || playBtnPress === "press-again"
+			? setPlayBtnPress("press")
+			: setPlayBtnPress("press-again");
+	};
+
+	return (
+		<img
+			src={image}
+			alt='play and pause button'
+			className={`play-button ${playBtnPress}`}
+			ref={playButton}
+			onClick={() => {
+				runOnClick();
+			}}
+		/>
+	);
+};
 
 export default PlayButton;

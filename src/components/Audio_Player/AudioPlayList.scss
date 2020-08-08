@@ -1,0 +1,156 @@
+.playlist-container {
+	position: relative;
+	display: flex;
+	top: 15vh;
+	justify-self: left;
+	height: fit-content;
+	max-height: 50vh;
+}
+
+.playlist-interface {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+
+	background-color: rgba(0, 0, 0, 0.582);
+}
+
+.playlist-tab {
+	width: 40px;
+	height: 25vh;
+	background-image: linear-gradient(to right, #133532ce, #22706ba1, #195c58c4);
+	border-radius: 0 100% 100% 0;
+	font-family: "Quicksand", sans-serif;
+	font-size: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-self: center;
+	cursor: pointer;
+	display: none;
+}
+
+.slide-out-playlist {
+	transform: translateX(calc(-100% + 40px));
+	transition: 0.5s;
+}
+
+.slide-in-playlist {
+	transform: translateX(0);
+	transition: 0.5s;
+}
+
+.slideout-icon {
+	width: 100%;
+	height: 40px;
+	background-image: url("../../images/slide_out.svg");
+	transition: 0.5s;
+}
+
+.slide-in-icon {
+	width: 100%;
+	height: 40px;
+	background-image: url("../../images/slide_in.svg");
+	transition: 0.5s;
+}
+
+.bottom-display {
+	width: 20vw;
+	min-width: 300px;
+	height: 3vw;
+	min-height: 20px;
+	color: white;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	font-family: "Quicksand", sans-serif;
+	font-size: 1.2rem;
+	background-color: rgba(0, 0, 0, 0.582);
+	overflow: hidden;
+}
+
+.player-display {
+	width: 20vw;
+	min-width: 300px;
+	height: 3vw;
+	min-height: 20px;
+	color: white;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	font-family: "Quicksand", sans-serif;
+	font-size: 1.2rem;
+	transition: 0.5s;
+	background-color: rgba(0, 0, 0, 0.582);
+	overflow: hidden;
+	.current-time {
+		position: absolute;
+		left: 1vw;
+	}
+	.title {
+		position: relative;
+		animation: scroll-vertical 10s linear forwards infinite;
+	}
+	.time-remaining {
+		position: absolute;
+		right: 1vw;
+	}
+}
+
+.autoplay-container {
+	height: 16px;
+	width: 50px;
+	background: url("../../images/switch.svg");
+	background-repeat: no-repeat;
+	position: relative;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+
+.autoplay-switch {
+	background: radial-gradient(
+		rgb(209, 96, 96),
+		rgb(117, 29, 29),
+		rgb(58, 15, 15)
+	);
+	border-radius: 100%;
+	left: 3px;
+	height: 10px;
+	width: 10px;
+	position: relative;
+	transition: 0.2s;
+}
+
+.on {
+	transition: 0.2s;
+	left: 37px;
+	background: radial-gradient(
+		rgb(113, 209, 96),
+		rgb(42, 117, 29),
+		rgb(15, 58, 24)
+	);
+}
+
+@keyframes scroll-vertical {
+	0% {
+		transform: translateY(-5vh);
+	}
+	15% {
+		transform: translateY(0);
+	}
+	85% {
+		transform: translateY(0);
+	}
+	100% {
+		transform: translateY(5vh);
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.playlist-tab {
+		display: flex;
+	}
+}

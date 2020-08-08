@@ -1,0 +1,74 @@
+.info-card {
+	color: white;
+	height: 100vh;
+	width: 30vw;
+	min-width: 300px;
+	background-color: rgba(0, 0, 0, 0.472);
+	position: absolute;
+	animation: invisible 1.3s forwards;
+	z-index: -1;
+	font-family: "Quicksand", sans-serif;
+	font-size: 1rem;
+}
+
+.visible {
+	visibility: visible;
+	flex-direction: column;
+	justify-content: space-around;
+	animation: none;
+}
+
+.planet-frame {
+	width: 25vw;
+	height: 25vw;
+	align-self: center;
+}
+
+.card-title {
+	font-size: 2rem;
+	width: 100%;
+	border-bottom: 1px rgba(255, 255, 255, 0.438) solid;
+	text-align: center;
+	margin-bottom: 1rem;
+	padding-bottom: 0.5rem;
+}
+
+.description {
+	line-height: 1.5rem;
+}
+
+.stats {
+	line-height: 2rem;
+	padding: 0 1rem;
+	p {
+		color: rgb(71, 240, 255);
+		span {
+			color: rgb(255, 255, 255);
+		}
+	}
+}
+
+.main-info {
+	padding: 0 1rem 1rem;
+}
+
+@keyframes invisible {
+	0% {
+		visibility: visible;
+	}
+	100% {
+		visibility: hidden;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.info-card {
+		font-size: 0.8rem;
+		width: 80vw;
+	}
+	.planet-frame {
+		width: 50vw;
+		height: 50vw;
+		align-self: center;
+	}
+}

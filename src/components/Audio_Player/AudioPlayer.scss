@@ -1,14 +1,29 @@
 .audio-player {
-	margin: 5rem auto;
-	width: 600px;
+	margin: 0.25rem auto;
+	width: 20vw;
+	min-width: 300px;
 	color: white;
-	height: 140px;
+	height: 3vw;
+	min-height: 20px;
 	border: none;
 	display: flex;
-	flex-direction: column;
-	background-color: rgb(37, 37, 37);
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(37, 37, 37, 0.746);
 	z-index: 0;
 	user-select: none;
+	position: relative;
+}
+
+.audio-player:hover {
+	transition: 0.2s;
+	background-color: rgba(0, 0, 0, 0.301);
+	transform: scaleX(1.02);
+}
+
+.audio-player:not(:hover) {
+	transition: 0.2s;
 }
 
 .audio-player-row {
@@ -19,4 +34,99 @@
 	width: 100%;
 	height: 100%;
 	position: relative;
+}
+
+.info-button {
+	position: absolute;
+	right: 1%;
+	width: 1.2vw;
+	height: 1.2vw;
+	min-width: 16px;
+	min-height: 16px;
+
+	z-index: 2;
+	opacity: 0.5;
+	cursor: pointer;
+}
+
+.info-button:hover {
+	transition: 0.2s;
+	opacity: 1;
+	transform: scale(1.1);
+}
+
+.info-button:not(:hover) {
+	transition: 0.2s;
+}
+
+.audio-progress {
+	-webkit-appearance: none;
+	height: 100%;
+	position: absolute;
+	width: 100%;
+	cursor: pointer;
+}
+
+.progress-container {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	opacity: 0.3;
+}
+
+.audio-current-position {
+	font-size: 1rem;
+	display: none;
+}
+
+.audio-time-remaining {
+	font-size: 1rem;
+	display: none;
+}
+
+.audio-player-title {
+	font-family: "Quicksand", sans-serif;
+	font-size: 1.3rem;
+
+	position: relative;
+	transition: 0.5s;
+}
+
+.full-opacity {
+	opacity: 1;
+}
+
+.teal {
+	color: rgb(38, 255, 255);
+	transition: 0.5s;
+}
+
+.audio-progress::-webkit-progress-bar {
+	background-color: rgb(20, 20, 20);
+	z-index: 3;
+}
+
+.audio-progress::-moz-progress-bar {
+	background-color: rgb(20, 20, 20);
+	z-index: 3;
+}
+
+.audio-progress::-webkit-progress-value {
+	background-image: linear-gradient(to right, rgb(173, 5, 173), #00a5a5);
+}
+
+.audio-progress::-moz-progress-value {
+	background-image: linear-gradient(to right, rgb(173, 5, 173), #00a5a5);
+}
+
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }

@@ -1,108 +1,174 @@
 $orbit: circle infinite linear;
 
-.planet {
+%planet {
 	position: absolute;
 	border-radius: 50%;
-	top: 50%;
-	left: 50%;
+
+	z-index: -2;
 }
 
-.gravity {
+%gravity {
 	width: 1px;
 	height: 1px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	margin-left: 0;
+	z-index: 2;
+}
+
+%display-info {
+	animation: grow-planet forwards 1 1s;
 }
 
 .solar-system {
-	background: url("../../images/background.svg");
-	margin: auto;
-	height: 100vh;
-	width: 100vw;
-	position: relative;
-	max-width: 100%;
+	margin: auto auto;
+	height: 80vh;
+	width: 80vw;
+	position: absolute;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+	z-index: -4;
+
 	.sun {
-		@extend .planet;
+		@extend %planet;
 		background: url("../../images/sun.svg");
+		top: 50%;
+		left: 50%;
 		width: 50px;
 		height: 50px;
 		margin-top: -25px;
 		margin-left: -25px;
 	}
 	.gravity-mercury {
-		@extend .gravity;
+		@extend %gravity;
+
 		.mercury {
-			@extend .planet;
+			@extend %planet;
 			width: 2px;
 			height: 2px;
+			background: url("../../images/mercury.svg");
+			animation: $orbit 5s;
 			margin-left: -30px;
 			transform-origin: 30px center;
-			background: silver;
-			animation: $orbit 5s;
+		}
+		.mercury-info {
+			@extend %gravity;
+			background: url("../../images/mercury.svg");
+		}
+		.planet-grow {
+			animation: grow-planet 1s forwards;
+		}
+		.planet-shrink {
+			animation: shrink-planet 1s forwards;
 		}
 	}
 
 	.gravity-venus {
-		@extend .gravity;
+		@extend %gravity;
 		.venus {
-			@extend .planet;
+			@extend %planet;
 			width: 4px;
 			height: 4px;
-			background: rgb(231, 240, 107);
+			background: url("../../images/venus.svg");
 			animation: $orbit 20s;
 			margin-left: -50px;
 			transform-origin: 50px center;
 		}
+		.venus-info {
+			@extend %gravity;
+			background: url("../../images/venus.svg");
+		}
+
+		.planet-grow {
+			animation: grow-planet 1s forwards;
+		}
+		.planet-shrink {
+			animation: shrink-planet 1s forwards;
+		}
 	}
 
 	.gravity-earth {
-		@extend .gravity;
+		@extend %gravity;
 		.earth {
-			@extend .planet;
+			@extend %planet;
 			width: 5px;
 			height: 5px;
-			background: rgb(56, 56, 255);
+			background: url("../../images/earth.svg");
 			animation: $orbit 25s;
 			animation-delay: -6s;
 			margin-left: -70px;
 			transform-origin: 70px center;
 		}
+		.earth-info {
+			@extend %gravity;
+			background: url("../../images/earth.svg");
+		}
+		.planet-grow {
+			animation: grow-planet 1s forwards;
+		}
+		.planet-shrink {
+			animation: shrink-planet 1s forwards;
+		}
 	}
 
 	.gravity-mars {
-		@extend .gravity;
+		@extend %gravity;
 		.mars {
-			@extend .planet;
+			@extend %planet;
 			width: 2.5px;
 			height: 2.5px;
-			background: rgb(136, 32, 1);
+			background: url("../../images/mars.svg");
 			animation: $orbit 50s;
 			animation-delay: -25s;
 			margin-left: -120px;
 			transform-origin: 120px center;
 		}
+		.mars-info {
+			@extend %gravity;
+			background: url("../../images/mars.svg");
+		}
+		.planet-grow {
+			animation: grow-planet 1s forwards;
+		}
+		.planet-shrink {
+			animation: shrink-planet 1s forwards;
+		}
 	}
 
 	.gravity-jupiter {
-		@extend .gravity;
+		@extend %gravity;
 		.jupiter {
-			@extend .planet;
+			@extend %planet;
 			width: 33px;
 			height: 33px;
 			background-image: url("../../images/jupiter.svg");
+
 			animation: $orbit 250s;
+			animation-play-state: running;
 			animation-delay: -200s;
 			margin-left: -200px;
 			transform-origin: 200px center;
+			transition: 1s;
+		}
+		.jupiter-info {
+			@extend %gravity;
+			background-image: url("../../images/jupiter.svg");
+		}
+		.planet-grow {
+			animation: grow-planet 1s forwards;
+		}
+		.planet-shrink {
+			animation: shrink-planet 1s forwards;
 		}
 	}
 
 	.gravity-saturn {
-		@extend .gravity;
+		@extend %gravity;
 		.saturn {
-			@extend .planet;
+			@extend %planet;
 			width: 40px;
 			height: 40px;
 			background-image: url("../../images/saturn.svg");
@@ -111,12 +177,23 @@ $orbit: circle infinite linear;
 			margin-left: -300px;
 			transform-origin: 300px center;
 		}
+		.saturn-info {
+			@extend %gravity;
+			background-image: url("../../images/saturn.svg");
+		}
+		.planet-grow {
+			animation: grow-planet 1s forwards;
+		}
+		.planet-shrink {
+			animation: shrink-planet 1s forwards;
+		}
 	}
 
 	.gravity-uranus {
-		@extend .gravity;
+		@extend %gravity;
+		background-image: url("../../images/uranus.svg");
 		.uranus {
-			@extend .planet;
+			@extend %planet;
 			width: 12px;
 			height: 12px;
 			background-image: url("../../images/uranus.svg");
@@ -125,12 +202,22 @@ $orbit: circle infinite linear;
 			margin-left: -350px;
 			transform-origin: 350px center;
 		}
+		.uranus-info {
+			@extend %gravity;
+			background-image: url("../../images/uranus.svg");
+		}
+		.planet-grow {
+			animation: grow-planet 1s forwards;
+		}
+		.planet-shrink {
+			animation: shrink-planet 1s forwards;
+		}
 	}
 
 	.gravity-neptune {
-		@extend .gravity;
+		@extend %gravity;
 		.neptune {
-			@extend .planet;
+			@extend %planet;
 			width: 11px;
 			height: 11px;
 			background-image: url("../../images/Neptune.svg");
@@ -139,19 +226,40 @@ $orbit: circle infinite linear;
 			margin-left: -400px;
 			transform-origin: 400px center;
 		}
+		.neptune-info {
+			@extend %gravity;
+			background-image: url("../../images/Neptune.svg");
+			transition: 1s;
+		}
+		.planet-grow {
+			animation: grow-planet 1s forwards;
+		}
+		.planet-shrink {
+			animation: shrink-planet 1s forwards;
+		}
 	}
 
 	.gravity-pluto {
-		@extend .gravity;
+		@extend %gravity;
 		.pluto {
-			@extend .planet;
+			@extend %planet;
 			width: 1px;
 			height: 1px;
-			background-color: beige;
+			background-image: url("../../images/pluto.svg");
 			animation: $orbit 1000s;
 			animation-delay: -500s;
 			margin-left: -500px;
 			transform-origin: 500px center;
+		}
+		.pluto-info {
+			@extend %gravity;
+			background-image: url("../../images/pluto.svg");
+		}
+		.planet-grow {
+			animation: grow-planet 1s forwards;
+		}
+		.planet-shrink {
+			animation: shrink-planet 1s forwards;
 		}
 	}
 }
@@ -159,5 +267,57 @@ $orbit: circle infinite linear;
 @keyframes circle {
 	to {
 		transform: rotate(1turn);
+	}
+}
+
+@keyframes grow-planet {
+	100% {
+		width: 25vw;
+		height: 25vw;
+		transform: translate(calc(47.5vw - 25vw), -44vh);
+	}
+}
+
+@keyframes shrink-planet {
+	0% {
+		width: 25vw;
+		height: 25vw;
+		transform: translate(calc(47.5vw - 25vw), -44vh);
+
+		z-index: 5;
+	}
+	100% {
+		width: 1px;
+		height: 1px;
+		transform: translate(0, 0);
+
+		z-index: 5;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	@keyframes grow-planet {
+		100% {
+			width: 45vw;
+			height: 45vw;
+			transform: translate(calc(-12.5vw), -42vh);
+		}
+	}
+
+	@keyframes shrink-planet {
+		0% {
+			width: 45vw;
+			height: 45vw;
+			transform: translate(calc(-12.5vw), -42vh);
+
+			z-index: 5;
+		}
+		100% {
+			width: 1px;
+			height: 1px;
+			transform: translate(0, 0);
+
+			z-index: 5;
+		}
 	}
 }
