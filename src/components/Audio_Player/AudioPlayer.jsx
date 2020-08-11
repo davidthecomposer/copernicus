@@ -25,15 +25,22 @@ class AudioPlayer extends React.Component {
 		this.audio = React.createRef();
 	}
 
+	componentDidUpdate = (prevProps) => {
+		if (
+			this.props.infoButtonOpacity &&
+			this.state.infoBtnOpacity === "full-opacity" &&
+			(window.innerWidth < 501 ||
+				(window.innerWidth < 900 &&
+					window.matchMedia("(orientation: landscape)").matches))
+		) {
+			this.setState({ infoBtnOpacity: "" });
+		}
+	};
+
 	playState = (e) => {
-		if (this.audio.current.ended) {
-			this.audio.current.load();
-			this.props.autoPlayTrackList(this.state.playButton);
-			this.setState({
-				buttonImage: playButtonImage,
-			});
-			this.setState({ titleOpacity: "" });
-		} else if (this.audio.current.currentTime === 0) {
+		this.props.stopPlayingTracks(this.state.playButton);
+
+		if (this.audio.current.currentTime === 0) {
 			this.setState({ buttonImage: pauseButtonImage });
 			this.setState({ titleOpacity: "teal" });
 			this.audio.current.play();
@@ -45,8 +52,18 @@ class AudioPlayer extends React.Component {
 		} else if (this.state.buttonImage === playButtonImage) {
 			this.setState({ buttonImage: pauseButtonImage });
 			this.setState({ titleOpacity: "teal" });
+
 			this.audio.current.play();
 		}
+	};
+
+	resetTrack = async () => {
+		this.setState({
+			buttonImage: playButtonImage,
+		});
+		this.setState({ titleOpacity: "" });
+		await this.props.autoPlayTrackList(this.state.playButton);
+		this.audio.current.load();
 	};
 
 	setPlayButtonRefState = (buttonRef) => {
@@ -96,7 +113,7 @@ class AudioPlayer extends React.Component {
 		});
 		const track = this.audio.current;
 		const played = track.played;
-		// const currentTime = track.currentTime;
+		const pureTime = track.currentTime.toFixed(0);
 		// const pureDuration = track.duration;
 		const title = track.dataset.title;
 
@@ -104,7 +121,8 @@ class AudioPlayer extends React.Component {
 			this.state.currentTime,
 			this.state.timeRemaining,
 			title,
-			played
+			played,
+			pureTime
 		);
 	};
 
@@ -127,8 +145,7 @@ class AudioPlayer extends React.Component {
 					ref={this.audio}
 					onTimeUpdate={this.getTimeCalc}
 					onDurationChange={this.getDuration}
-					onEnded={this.playState}
-					onLoad={this.playState}
+					onEnded={this.resetTrack}
 					data-title={this.props.title}
 				/>
 				<PlayButton
@@ -137,20 +154,21 @@ class AudioPlayer extends React.Component {
 					populatePlayButtonList={this.props.populatePlayButtonList}
 					passRefToPlayer={this.setPlayButtonRefState}
 				/>
-				<AudioPlayerTitle
-					title={this.props.title}
-					opacity={this.state.titleOpacity}
-				/>
-
 				<AudioProgress
 					pureTime={this.state.pureTime}
 					pureDuration={this.state.pureDuration}
 					onClick={this.changeLocation}
 					updateCurrentTime={this.updateCurrentTime}
 				/>
+				<AudioPlayerTitle
+					title={this.props.title}
+					opacity={this.state.titleOpacity}
+				/>
 
 				<img
-					className={`info-button ${this.state.infoBtnOpacity}`}
+					className={`info-button ${
+						this.state.infoBtnOpacity || this.props.infoButtonOpacity
+					}`}
 					src={infoButton}
 					alt='info'
 					onClick={this.props.displayPlanetInfo}

@@ -86,9 +86,8 @@ video {
 	font: inherit;
 	vertical-align: baseline;
 }
+
 body {
-	height: 100vh;
-	width: 100vw;
 	z-index: -10;
 }
 .app {
@@ -128,15 +127,18 @@ body {
 	margin-left: 100vw;
 	transition: all 1s;
 	transition-delay: 0.5s;
-	.close-info-cards {
-		background-image: url("../images/nvm.svg");
-		position: absolute;
-		left: 1vw;
-		top: 1vw;
-		height: 33px;
-		width: 48px;
-		visibility: hidden;
-	}
+}
+
+.close-info-cards {
+	background-image: url("../images/nvm.svg");
+	position: absolute;
+	left: 1vw;
+	top: 1vw;
+	height: 33px;
+	width: 48px;
+	z-index: 5;
+	visibility: hidden;
+	cursor: pointer;
 }
 
 .slide-out {
@@ -163,7 +165,64 @@ body {
 // 	}
 // }
 
+@media screen and (max-width: 1200px) {
+	.main-title {
+		width: 80vw;
+		font-size: 8vw;
+		left: 10vw;
+	}
+	.slide-out {
+		transition: 1s;
+		transition-delay: 0.5s;
+		margin-left: calc(100vw - 50vw);
+	}
+
+	.left {
+		transform: translate(-25vw, 0.5vh);
+		font-size: 2rem;
+		transition: 1s;
+		transition-delay: 0.8s;
+	}
+	.info-card-list {
+		.close-info-cards {
+			visibility: visible;
+			cursor: pointer;
+		}
+	}
+}
+
+@media screen and (max-width: 900px) and (orientation: landscape) {
+	.main-title {
+		font-size: 5vw;
+		width: 100vw;
+		left: 25vw;
+	}
+	.slide-out {
+		transition: 1s;
+		transition-delay: 0.5s;
+		margin-left: 10vw;
+	}
+
+	.left {
+		transform: translate(-100vw, 0.5vh);
+		opacity: 0;
+		transition: 1s;
+		transition-delay: 0.8s;
+	}
+
+	.info-card-list {
+		width: 90vw;
+		.close-info-cards {
+			visibility: visible;
+			cursor: pointer;
+		}
+	}
+}
+
 @media screen and (max-width: 500px) {
+	.main-title {
+		font-size: 10vw;
+	}
 	.slide-out {
 		transition: 1s;
 		transition-delay: 0.5s;

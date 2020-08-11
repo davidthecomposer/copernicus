@@ -14,11 +14,11 @@
 	display: flex;
 	flex-direction: column;
 	position: absolute;
-	left: 1vw;
-	bottom: 1vh;
-	width: 20vw;
-	min-width: 300px;
-	height: 25vh;
+
+	bottom: 10px;
+	width: 350px;
+
+	height: 300px;
 	justify-content: center;
 	align-items: center;
 }
@@ -32,22 +32,11 @@
 	background-repeat: no-repeat;
 	transition: 0.2s;
 	position: relative;
+	z-index: 5;
 }
 
 .comment-icon:hover {
 	transform: scale(1.2);
-}
-
-.comment-display {
-	margin: 0 auto;
-	position: absolute;
-	width: 50vw;
-	left: 25vw;
-	height: 12vh;
-	bottom: 7vh;
-	background-color: rgba(0, 0, 0, 0.438);
-	opacity: 0;
-	z-index: -5;
 }
 
 .track-comment-form {
@@ -69,7 +58,7 @@
 		justify-content: space-around;
 		select {
 			@include form-input;
-			width: 50%;
+			width: 30%;
 		}
 		.track-option {
 			@include form-input;
@@ -79,14 +68,14 @@
 		}
 		.track-time {
 			@include form-input;
-			width: 33%;
+			width: 30%;
+		}
+		.name {
+			width: 30%;
+			@include form-input;
 		}
 	}
 
-	.name {
-		width: 50%;
-		@include form-input;
-	}
 	textarea {
 		height: 40%;
 		width: 80%;
@@ -120,14 +109,14 @@
 		background-image: url("../../images/comment_icon.svg");
 	}
 	100% {
-		transform: translate(-250%, -250%) scale(0.6);
+		transform: translate(-140px, -160px) scale(0.7);
 		background-image: url("../../images/nvm.svg");
 	}
 }
 
 @keyframes become-icon {
 	0% {
-		transform: translate(-250%, -250%) scale(0.6);
+		transform: translate(-140px, -160px) scale(0.7);
 		background-image: url("../../images/nvm.svg");
 	}
 	100% {
@@ -136,9 +125,54 @@
 	}
 }
 
+@media screen and (max-width: 900px) and (orientation: landscape) {
+	.comment-icon {
+		align-self: flex-start;
+		justify-self: bottom;
+		margin-left: 0;
+		margin-bottom: 6px;
+		cursor: pointer;
+		background-image: url("../../images/comment_icon.svg");
+		background-repeat: no-repeat;
+		transition: 0.2s;
+		position: relative;
+	}
+
+	.comment-container {
+		bottom: 0;
+		width: 50vw;
+		left: 25vw;
+		height: 200px;
+		justify-content: flex-end;
+		align-items: center;
+	}
+
+	@keyframes become-close {
+		0% {
+			background-image: url("../../images/comment_icon.svg");
+		}
+		100% {
+			transform: translate(30px, 6px) scale(0.7);
+			background-image: url("../../images/nvm.svg");
+		}
+	}
+
+	@keyframes become-icon {
+		0% {
+			transform: translate(30px, 6px) scale(0.7);
+			background-image: url("../../images/nvm.svg");
+		}
+		100% {
+			transform: translate(0, 0) scale(1);
+			background-image: url("../../images/comment_icon.svg");
+		}
+	}
+}
+
 @media screen and (max-width: 500px) {
 	.comment-icon {
 		align-self: flex-start;
+		margin-left: 6px;
 
 		cursor: pointer;
 		background-image: url("../../images/comment_icon.svg");
@@ -146,23 +180,33 @@
 		transition: 0.2s;
 		position: relative;
 	}
+
+	.comment-container {
+		bottom: 10px;
+		width: 100vw;
+
+		height: 200px;
+		justify-content: flex-end;
+		align-items: center;
+	}
+
 	@keyframes become-close {
 		0% {
 			background-image: url("../../images/comment_icon.svg");
 		}
 		100% {
-			transform: translate(0, -250%) scale(0.5);
+			transform: translate(30px, 6px) scale(0.7);
 			background-image: url("../../images/nvm.svg");
 		}
 	}
 
 	@keyframes become-icon {
 		0% {
-			transform: translate(0, -250%) scale(0.5);
+			transform: translate(30px, 6px) scale(0.7);
 			background-image: url("../../images/nvm.svg");
 		}
 		100% {
-			transform: translate(0vw, 0vh) scale(1);
+			transform: translate(0, 0) scale(1);
 			background-image: url("../../images/comment_icon.svg");
 		}
 	}

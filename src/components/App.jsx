@@ -6,6 +6,7 @@ import AudioPlayList from "./Audio_Player/AudioPlayList";
 import InfoCardList from "../components/Info_Cards/InfoCardList";
 import CommentContainer from "../components/comments/Comment-Container";
 import CommentDisplay from "../components/comments/Comment-Display";
+import PlanetForPanel from "../components/Solar_System/PlanetForPanel";
 import Earth from "../audio/Earth.wav";
 import Jupiter from "../audio/Jupiter.wav";
 import Mars from "../audio/Mars.wav";
@@ -29,7 +30,7 @@ const App = () => {
 		pluto: "",
 	});
 	const [musicData, setMusicData] = useState([]);
-	const [trackList, setTrackList] = useState([
+	const trackList = [
 		Jupiter,
 		Neptune,
 		Mars,
@@ -39,18 +40,28 @@ const App = () => {
 		Saturn,
 		Venus,
 		Earth,
-	]);
+	];
 	const [slideOutState, setSlideOutState] = useState("");
 	const [titlePosition, setTitlePosition] = useState("");
 	const [currentTime, setCurrentTime] = useState("-:--");
 	const [timeRemaining, setTimeRemaining] = useState("-:--");
 	const [currentTrack, setCurrentTrack] = useState("-");
+	const [pureTime, setPureTime] = useState(0);
 	const [playlistSlideState, setPlaylistSlideState] = useState(
-		window.innerWidth < 501 ? "slide-out-playlist" : "slide-in-playlist"
+		window.innerWidth < 501 ||
+			(window.innerWidth < 900 &&
+				window.matchMedia("(orientation: landscape)").matches)
+			? "slide-out-playlist"
+			: "slide-in-playlist"
 	);
 	const [slideIconState, setSlideIconState] = useState(
-		window.innerWidth < 501 ? "slide-in-icon" : "slideout-icon"
+		window.innerWidth < 501 ||
+			(window.innerWidth < 900 &&
+				window.matchMedia("(orientation: landscape)").matches)
+			? "slide-in-icon"
+			: "slideout-icon"
 	);
+	const [infoButtonOpacity, setInfoButtonOpacity] = useState("0");
 
 	useEffect(() => {
 		const getInitialData = async () => {
@@ -76,7 +87,8 @@ const App = () => {
 		};
 
 		getInitialData();
-	}, [trackList]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const displayPlanetInfo = (e) => {
 		const targetPlanet = e.target.dataset.title.toLowerCase();
@@ -88,7 +100,11 @@ const App = () => {
 			}));
 			setSlideOutState("slide-out");
 			setTitlePosition("left");
-			if (window.innerWidth < 501) {
+			if (
+				window.innerWidth < 501 ||
+				(window.innerWidth < 900 &&
+					window.matchMedia("(orientation: landscape)").matches)
+			) {
 				setPlaylistSlideState("slide-out-playlist");
 				setSlideIconState("slide-in-icon");
 			}
@@ -102,11 +118,34 @@ const App = () => {
 		}
 	};
 
-	const sendDataToViewer = (currentTime, timeRemaining, title, played) => {
+	const exitPlanetInfo = () => {
+		const planets = { ...planetState };
+		for (let planet in planets) {
+			if (planets[planet] === "planet-grow") {
+				planets[planet] = "planet-shrink";
+			}
+		}
+
+		setPlanetState(planets);
+		setSlideOutState("");
+		setTitlePosition("");
+		infoButtonOpacity === ""
+			? setInfoButtonOpacity("0")
+			: setInfoButtonOpacity("1");
+	};
+
+	const sendDataToViewer = (
+		currentTime,
+		timeRemaining,
+		title,
+		played,
+		pureTime
+	) => {
 		if (played.length !== 0) {
 			setCurrentTime(currentTime);
 			setTimeRemaining(timeRemaining);
 			setCurrentTrack(title);
+			setPureTime(pureTime);
 		}
 	};
 
@@ -122,7 +161,8 @@ const App = () => {
 	return (
 		<div className='app'>
 			<h1 className={`main-title ${titlePosition}`}>Copernicus Etudes</h1>
-			<SolarSystem planetState={planetState} />
+			<SolarSystem />
+			<PlanetForPanel planetState={planetState} />
 			<AudioPlayList
 				displayPlanetInfo={displayPlanetInfo}
 				musicData={musicData}
@@ -133,18 +173,26 @@ const App = () => {
 				slideInOrOut={slideInOrOut}
 				playlistSlideState={playlistSlideState}
 				slideIconState={slideIconState}
+				infoButtonOpacity={infoButtonOpacity}
 			/>
 			<InfoCardList
 				musicData={musicData}
 				planetState={planetState}
 				slideOutState={slideOutState}
+				exitPlanetInfo={exitPlanetInfo}
 			/>
 			<CommentContainer
 				musicData={musicData}
 				currentTrack={currentTrack}
 				currentTime={currentTime}
+				pureTime={pureTime}
 			/>
-			<CommentDisplay />
+			<CommentDisplay
+				musicData={musicData}
+				currentTime={currentTime}
+				currentTrack={currentTrack}
+				pureTime={pureTime}
+			/>
 		</div>
 	);
 };

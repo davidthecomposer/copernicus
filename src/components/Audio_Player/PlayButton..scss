@@ -1,12 +1,13 @@
 .play-button {
 	left: 1%;
-	width: 1.2vw;
-	height: 1.2vw;
+	width: 25px;
+	height: 25px;
+
 	min-width: 16px;
 	min-height: 16px;
 	opacity: 0.5;
 	cursor: pointer;
-	position: absolute;
+	position: relative;
 
 	z-index: 2;
 }

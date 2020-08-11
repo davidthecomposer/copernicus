@@ -12,6 +12,7 @@ const AudioPlayList = ({
 	slideInOrOut,
 	playlistSlideState,
 	slideIconState,
+	infoButtonOpacity,
 }) => {
 	const [autoPlaySwitch, setAutoPlaySwitch] = useState("");
 	const [playButtonList, setPlayButtonList] = useState([]);
@@ -42,6 +43,14 @@ const AudioPlayList = ({
 			}
 		}
 	};
+	const stopPlayingTracks = (playButton) => {
+		const currentlyPlaying = playButtonList.filter((button) => {
+			return button.src.match("pause_button");
+		});
+		if (currentlyPlaying.length > 0) {
+			currentlyPlaying[0].click();
+		}
+	};
 
 	const players = musicData.map((player) => {
 		return (
@@ -54,6 +63,8 @@ const AudioPlayList = ({
 				sendDataToViewer={sendDataToViewer}
 				autoPlayTrackList={autoPlayTrackList}
 				populatePlayButtonList={populatePlayButtonList}
+				infoButtonOpacity={infoButtonOpacity}
+				stopPlayingTracks={stopPlayingTracks}
 			/>
 		);
 	});
@@ -68,9 +79,9 @@ const AudioPlayList = ({
 				{players}
 				<div className='bottom-display'>
 					<p>auto-play:</p>
-					<div className='autoplay-container' onClick={autopPlayOnOff}>
-						<div className={`autoplay-switch ${autoPlaySwitch}`}></div>
-					</div>
+					<div
+						className={`autoplay-container ${autoPlaySwitch}`}
+						onClick={autopPlayOnOff}></div>
 				</div>
 			</div>
 			<div className={`playlist-tab`} onClick={slideInOrOut}>

@@ -1,0 +1,164 @@
+%gravity {
+	width: 1px;
+	height: 1px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 2;
+	border-radius: 50%;
+}
+
+.mercury-info {
+	@extend %gravity;
+	background: url("../../images/mercury.svg");
+}
+
+.venus-info {
+	@extend %gravity;
+	background: url("../../images/venus.svg");
+}
+
+.earth-info {
+	@extend %gravity;
+	background: url("../../images/earth.svg");
+}
+
+.mars-info {
+	@extend %gravity;
+	background: url("../../images/mars.svg");
+}
+
+.jupiter-info {
+	@extend %gravity;
+	background-image: url("../../images/jupiter.svg");
+}
+
+.saturn-info {
+	@extend %gravity;
+	background-image: url("../../images/saturn.svg");
+}
+
+.neptune-info {
+	@extend %gravity;
+	background-image: url("../../images/Neptune.svg");
+	transition: 1s;
+}
+
+.uranus-info {
+	@extend %gravity;
+	background-image: url("../../images/uranus.svg");
+}
+.pluto-info {
+	@extend %gravity;
+	background-image: url("../../images/pluto.svg");
+}
+
+.planet-grow {
+	animation: grow-planet 1s forwards;
+}
+.planet-shrink {
+	animation: shrink-planet 1s forwards;
+}
+
+@keyframes grow-planet {
+	100% {
+		width: 25vw;
+		height: 25vw;
+		transform: translate(calc(47.5vw - 25vw), -44vh);
+		z-index: 5;
+	}
+}
+
+@keyframes shrink-planet {
+	0% {
+		width: 25vw;
+		height: 25vw;
+		transform: translate(calc(47.5vw - 25vw), -44vh);
+
+		z-index: 5;
+	}
+	100% {
+		width: 1px;
+		height: 1px;
+		transform: translate(0, 0);
+
+		z-index: 5;
+	}
+}
+
+@media screen and (max-width: 1200px) {
+	@keyframes grow-planet {
+		100% {
+			width: 40vw;
+			height: 40vw;
+			transform: translate(5vw, -42vh);
+			z-index: 5;
+		}
+	}
+
+	@keyframes shrink-planet {
+		0% {
+			width: 40vw;
+			height: 40vw;
+			transform: translate(5vw, -42vh);
+			z-index: 5;
+		}
+		100% {
+			width: 1px;
+			height: 1px;
+			transform: translate(0, 0);
+			z-index: 5;
+		}
+	}
+}
+@media screen and (max-width: 900px) and (orientation: landscape) {
+	@keyframes grow-planet {
+		100% {
+			width: 35vw;
+			height: 35vw;
+			transform: translate(-39vw, -33vh);
+			z-index: 5;
+		}
+	}
+
+	@keyframes shrink-planet {
+		0% {
+			width: 35vw;
+			height: 35vw;
+			transform: translate(-39vw, -33vh);
+			z-index: 5;
+		}
+		100% {
+			width: 1px;
+			height: 1px;
+			transform: translate(0, 0);
+			z-index: 5;
+		}
+	}
+}
+
+@media screen and (max-width: 500px) {
+	@keyframes grow-planet {
+		100% {
+			width: 45vw;
+			height: 45vw;
+			transform: translate(calc(-12.5vw), -42vh);
+			z-index: 5;
+		}
+	}
+
+	@keyframes shrink-planet {
+		0% {
+			width: 45vw;
+			height: 45vw;
+			transform: translate(calc(-12.5vw), -42vh);
+			z-index: 5;
+		}
+		100% {
+			width: 1px;
+			height: 1px;
+			transform: translate(0, 0);
+			z-index: 5;
+		}
+	}
+}

@@ -2,7 +2,7 @@ import React from "react";
 import InfoCard from "./InfoCard";
 
 const InfoCardList = ({
-	displayPlanetInfo,
+	exitPlanetInfo,
 	musicData,
 	planetState,
 	slideOutState,
@@ -42,7 +42,7 @@ const InfoCardList = ({
 	});
 	return (
 		<div className={`info-card-list ${slideOutState}`}>
-			<div className='close-info-cards'></div>
+			<div className='close-info-cards' onClick={exitPlanetInfo}></div>
 			{infoCards}
 		</div>
 	);

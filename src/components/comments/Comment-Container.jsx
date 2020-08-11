@@ -1,14 +1,19 @@
 import React, { useState, useReducer } from "react";
 import "./Comment-Container.scss";
 
-const CommentContainer = ({ musicData, currentTime, currentTrack }) => {
+const CommentContainer = ({
+	musicData,
+	currentTime,
+	currentTrack,
+	pureTime,
+}) => {
 	const [formVisibility, setFormVisibility] = useState("");
 	const [formOpenClose, setFormOpenClose] = useState("");
 	const [formData, setFormData] = useReducer(
 		(state, newState) => ({ ...state, ...newState }),
 		{
-			track: "current",
-			time: "current",
+			track: "current track",
+			time: "current time",
 			name: "",
 			message: "",
 		}
@@ -39,10 +44,10 @@ const CommentContainer = ({ musicData, currentTime, currentTrack }) => {
 	};
 
 	const handleCurrentTrack = async () => {
-		if (formData.track === "current") {
+		if (formData.track === "track") {
 			await setFormData({ track: currentTrack });
 		}
-		if (formData.time === "current") {
+		if (formData.time === "time") {
 			await setFormData({ time: currentTime });
 		}
 	};
@@ -54,14 +59,13 @@ const CommentContainer = ({ musicData, currentTime, currentTrack }) => {
 			const track_id = musicData.find((track) => track.title === currentTrack)
 				._id;
 
-			const body = {
+			const body = JSON.stringify({
 				track_id: track_id,
 				name: formData.name,
-				timestamp: currentTime,
+				timestamp: pureTime,
 				comment: formData.message,
-			};
+			});
 
-			console.log(body);
 			const response = await fetch(
 				`https://copernicus-api.herokuapp.com/tracks/${currentTrack}/comments`,
 				{
@@ -72,7 +76,17 @@ const CommentContainer = ({ musicData, currentTime, currentTrack }) => {
 					body: body,
 				}
 			);
-			console.log(response.json());
+
+			const userResponse = await response.json();
+			const clearData = {
+				track: "track",
+				time: "time",
+				name: "",
+				message: `${userResponse}`,
+			};
+			setFormData(clearData);
+
+			setTimeout(() => setFormData({ message: "" }), 3000);
 		} catch (err) {
 			console.log(err);
 		}
@@ -92,7 +106,7 @@ const CommentContainer = ({ musicData, currentTime, currentTrack }) => {
 						onChange={updateFormState}
 						value={formData.track}
 						name='track'>
-						<option className='track-option' placeholder='current'>
+						<option className='track-option' placeholder='current track'>
 							current
 						</option>
 						{options}
@@ -101,19 +115,20 @@ const CommentContainer = ({ musicData, currentTime, currentTrack }) => {
 						onChange={updateFormState}
 						className='track-time'
 						type='text'
-						placeholder='current time'
+						placeholder='time'
 						value={formData.time}
 						name='time'
 					/>
+					<input
+						onChange={updateFormState}
+						className='name'
+						type='text'
+						placeholder='name'
+						value={formData.name}
+						name='name'
+					/>
 				</div>
-				<input
-					onChange={updateFormState}
-					className='name'
-					type='text'
-					placeholder='name'
-					value={formData.name}
-					name='name'
-				/>
+
 				<textarea
 					type='text'
 					placeholder='make a comment about one of the tracks here'
@@ -130,8 +145,6 @@ const CommentContainer = ({ musicData, currentTime, currentTrack }) => {
 
 export default CommentContainer;
 
-//form API integration
-// current track time element / playlist integration
-//autoplay option
-//mobile version - audioplaylist slideout/tab
+// media querries
+//
 // Sass refactoring

@@ -1,0 +1,64 @@
+.comment-display {
+	margin: 0 auto;
+	position: absolute;
+	width: 50vw;
+	left: 25vw;
+
+	bottom: 7vh;
+	background-color: rgba(0, 0, 0, 0);
+	opacity: 1;
+	z-index: -5;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.single-comment {
+	font-family: "Quicksand", sans-serif;
+	font-size: 2rem;
+	color: rgb(233, 143, 255);
+
+	animation: fadeInComment 20s forwards linear;
+}
+
+@keyframes fadeInComment {
+	0% {
+		opacity: 0;
+	}
+	2.5% {
+		opacity: 1;
+	}
+	10% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.5;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@media screen and (max-width: 900px) and (orientation: landscape) {
+	.comment-display {
+		width: 100vw;
+		bottom: 25vh;
+		left: 0;
+	}
+	.single-comment {
+		font-size: 1.2rem;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.comment-display {
+		width: 100vw;
+		bottom: 15vh;
+		left: 0;
+	}
+	.single-comment {
+		font-size: 1rem;
+		text-align: center;
+	}
+}
